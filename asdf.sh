@@ -1,6 +1,6 @@
 # Source essential asdf functions : 
 export ASDF_DATA_DIR="$HOME/.local/share/asdf"
-export ASDF_CONCURRENCY=13
+export ASDF_CONCURRENCY=$(( `nproc` + 1 ))
 
 . <($HOME/.local/bin/asdf completion bash)
 
