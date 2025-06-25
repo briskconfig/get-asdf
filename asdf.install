@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+set -e
+
+ERR="[38;5;9m"
+CLR="[0m"
+
+asdf_script='https://github.com/Briskconfig/get-asdf/raw/refs/heads/release/asdf.sh'
+grab_latest='https://github.com/BriskBear/profile.d/raw/refs/heads/release/grab_latest.sh'
+XP=$HOME/.local/etc/profile.d
+
+# Prefer curl else find wget
+if [[ `curl 2>/dev/null` == 127 ]]
+then [[ `wget 2>/dev/null` == 127 ]]                                                   \
+  && ( echo -e "${ERR}Error: Install 'curl' or 'wget' and try again.${CLR}" ; exit 2 ) \
+  || web='wget -S'
+else web='curl -#L'
+fi
+
+# Create user's .local directories for standard profile
+mkdir -vp ~/.local/{bin,etc/profile.d,share/asdf}
+
+`${web} ${grab_latest} > $XP/grab_latest.sh`
+. $XP/grab_latest.sh
+
+pushd $HOME
+  # Download and Extract asdf binary to the path
+  pushd .local/bin
+    grab-latest asdf-vm/asdf
+    # curl -#Lo $asdf_script $XP/asdf.sh
+  popd
+
+  # Add asdf paths, environment variables, and completion
+  echo '[[ $PATH =~ ".local/bin" ]] || export PATH=$PATH:$HOME/.local/bin' >> $HOME/.bashrc
+  echo ". $XP/asdf.sh"                                                     >> $HOME/.bashrc
+
+  . .bashrc  # Load newly added environment variables + completion
+popd
+
+rm -v `realpath $0`  # Remove this script
