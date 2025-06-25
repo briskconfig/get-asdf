@@ -9,6 +9,8 @@ asdf_script='https://github.com/briskconfig/get-asdf/raw/refs/heads/release/asdf
 grab_latest='https://github.com/BriskBear/profile.d/raw/refs/heads/release/grab_latest.sh'
 XP=$HOME/.local/etc/profile.d
 
+[[ `git &>/dev/null` ]] || ( echo -e "${ERR}asdf requires git, please install git and try again${CLR}" ; exit 1 )
+
 # Prefer curl else find wget
 if [[ `curl 2>/dev/null` == 127 ]]
 then [[ `wget 2>/dev/null` == 127 ]]                                                   \
