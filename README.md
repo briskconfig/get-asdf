@@ -12,3 +12,10 @@ __Explain__:
     - Configs  
     - user-specific applications  
   - Bootstrap `asdf` version management for use in larger scripts/Dockerfiles  
+    - eg. _# Bootstrap zig with asdf_  
+    ```bash
+    curl -#L https://github.com/briskconfig/get-asdf/raw/refs/heads/release/asdf.install | bash ;\
+    . ~/.bashrc ;\
+    asdf-install-latest zig ;\
+    zig version
+    ```  

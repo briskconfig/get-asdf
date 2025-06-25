@@ -24,17 +24,19 @@ mkdir -vp ~/.local/{bin,etc/profile.d,share/asdf}
 
 `${web} ${grab_latest} > $XP/grab_latest.sh`
 . $XP/grab_latest.sh
+printf "\033[1A\033[0G\033[0K"
 
-pushd $HOME
+pushd $HOME &>/dev/null
   # Download and Extract asdf binary to the path
-  pushd .local/bin
+  pushd .local/bin &>/dev/null
     grab-latest asdf-vm/asdf
     curl -#Lo $XP/asdf.sh $asdf_script
-  popd
+    printf "\033[1A\033[0G\033[0K"
+  popd &>/dev/null
 
   # Add asdf paths, environment variables, and completion
   echo '[[ $PATH =~ ".local/bin" ]] || export PATH=$PATH:$HOME/.local/bin' >> $HOME/.bashrc
   echo ". $XP/asdf.sh"                                                     >> $HOME/.bashrc
 
   . .bashrc  # Load newly added environment variables + completion
-popd
+popd &>/dev/null
