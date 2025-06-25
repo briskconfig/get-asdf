@@ -5,7 +5,7 @@ set -e
 ERR="[38;5;9m"
 CLR="[0m"
 
-asdf_script='https://github.com/Briskconfig/get-asdf/raw/refs/heads/release/asdf.sh'
+asdf_script='https://github.com/briskconfig/get-asdf/raw/refs/heads/release/asdf.sh'
 grab_latest='https://github.com/BriskBear/profile.d/raw/refs/heads/release/grab_latest.sh'
 XP=$HOME/.local/etc/profile.d
 
@@ -27,7 +27,7 @@ pushd $HOME
   # Download and Extract asdf binary to the path
   pushd .local/bin
     grab-latest asdf-vm/asdf
-    # curl -#Lo $asdf_script $XP/asdf.sh
+    curl -#Lo $XP/asdf.sh $asdf_script
   popd
 
   # Add asdf paths, environment variables, and completion
@@ -36,5 +36,3 @@ pushd $HOME
 
   . .bashrc  # Load newly added environment variables + completion
 popd
-
-rm -v `realpath $0`  # Remove this script
