@@ -27,20 +27,12 @@ mkdir -p ~/.local/{bin,etc/profile.d,share/asdf}
 . $XP/grab_latest.sh
 printf "\033[1A\033[0G\033[0K"
 
-pushd $HOME &>/dev/null
-  # Download and Extract asdf binary to the path
-  pushd .local/bin &>/dev/null
-    grab-latest asdf-vm/asdf
-    printf "\033[1A\033[0G\033[0K"
-    ${web} $asdf_script > $XP/asdf.sh
-    printf "\033[1A\033[0G\033[0K"
-  popd &>/dev/null
-
-  # Add asdf paths, environment variables, and completion
-  echo '[[ $PATH =~ ".local/bin" ]] || export PATH=$PATH:$HOME/.local/bin' >> $HOME/.bashrc
-  echo ". $XP/asdf.sh"                                                     >> $HOME/.bashrc
-
-  . .bashrc  # Load newly added environment variables + completion
+# Download and Extract asdf binary to the path
+pushd $HOME/.local/bin &>/dev/null
+  grab-latest asdf-vm/asdf
+  printf "\033[1A\033[0G\033[0K"
+  ${web} $asdf_script > $XP/asdf.sh
+  printf "\033[1A\033[0G\033[0K"
 popd &>/dev/null
 
 echo -e "${AVER}asdf-vm installed! use \`. ~/.bashrc\` to load${CLR}"
